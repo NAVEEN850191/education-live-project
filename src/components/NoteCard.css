@@ -1,0 +1,60 @@
+.note-card {
+
+  background-color: rgb(255,255,255);
+
+  padding: 25px;
+
+  border-radius: 14px;
+
+  border: 1px solid rgb(233,213,255);
+
+  box-shadow:
+    0 8px 20px rgba(109,40,217,0.12);
+
+  transition: 0.3s ease;
+
+}
+
+.note-card:hover {
+
+  transform: translateY(-5px);
+
+}
+
+.note-card h3 {
+
+  color: rgb(109,40,217);
+
+  margin-bottom: 10px;
+
+}
+
+.note-card p {
+
+  color: rgb(107,114,128);
+
+  margin-bottom: 15px;
+
+}
+
+.note-card button {
+
+  width: 100%;
+
+  padding: 12px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: linear-gradient(
+    135deg,
+    rgb(109,40,217),
+    rgb(147,51,234)
+  );
+
+  color: white;
+
+  cursor: pointer;
+
+}

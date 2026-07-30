@@ -1,0 +1,17 @@
+.page-title {
+
+  color: rgb(109,40,217);
+
+  margin-bottom: 30px;
+
+}
+
+.cards {
+
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 20px;
+
+}
