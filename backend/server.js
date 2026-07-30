@@ -32,8 +32,8 @@ app.get("/", (req, res) => {
   res.send("Backend is Working...");
 });
 
-// const connectDB = require("./config/db");
-// connectDB();
+const connectDB = require("./config/db");
+connectDB();
 
 // Server
 const PORT = process.env.PORT || 5000;
