@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,31 +17,25 @@ const AdminLogin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     console.log("Admin Login:", formData);
-
-    // TODO:
-    // Connect backend API here
-    // Navigate to Admin Dashboard after successful login
+    navigate("/admin/dashboard");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 px-4">
-      <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-8">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-500 p-4">
+      <div className="bg-white w-full max-w-md p-8 rounded-2xl shadow-2xl">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">
           Admin Login
         </h1>
-
-        <p className="text-center text-gray-500 mb-8">
+        <p className="text-center text-gray-500 text-sm mb-6">
           Sign in to access the Admin Dashboard
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block mb-2 text-sm font-medium text-gray-700">
-              Email
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-semibold text-gray-600">
+              Email Address
             </label>
-
             <input
               type="email"
               name="email"
@@ -48,15 +43,14 @@ const AdminLogin = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
-          <div>
-            <label className="block mb-2 text-sm font-medium text-gray-700">
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-semibold text-gray-600">
               Password
             </label>
-
             <input
               type="password"
               name="password"
@@ -64,13 +58,13 @@ const AdminLogin = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-3 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition"
+            className="w-full py-3 mt-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-semibold shadow-md transition text-sm cursor-pointer"
           >
             Login
           </button>
@@ -78,10 +72,10 @@ const AdminLogin = () => {
 
         <div className="mt-6 text-center">
           <Link
-            to="/"
-            className="text-indigo-600 hover:underline font-medium"
+            to="/teacher/login"
+            className="text-xs text-purple-600 font-semibold hover:underline"
           >
-            ← Back to Home
+            ← Switch to Teacher Login
           </Link>
         </div>
       </div>
