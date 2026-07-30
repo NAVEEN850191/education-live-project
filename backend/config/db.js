@@ -1,12 +1,14 @@
+// config/db.js
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    // Changed MONGO_URI to MONGODB_URI to match your .env file
+    await mongoose.connect(process.env.MONGODB_URI);
 
-    console.log(" MongoDB Connected");
+    console.log("MongoDB Connected Successfully!");
   } catch (error) {
-    console.log(" Database Connection Failed");
+    console.log("Database Connection Failed:", error.message);
     process.exit(1);
   }
 };

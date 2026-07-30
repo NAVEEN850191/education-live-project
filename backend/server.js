@@ -1,3 +1,8 @@
+// DNS Fix for MongoDB Atlas SRV Lookup Errors
+const dns = require("dns");
+dns.setDefaultResultOrder("ipv4first");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 require("dotenv").config();
 
 const express = require("express");
@@ -5,8 +10,16 @@ const cors = require("cors");
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// Middleware: Explicit CORS configuration for Vite Frontend
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 // Routes
@@ -32,8 +45,9 @@ app.get("/", (req, res) => {
   res.send("Backend is Working...");
 });
 
-// const connectDB = require("./config/db");
-// connectDB();
+// Database Connection
+const connectDB = require("./config/db");
+connectDB();
 
 // Server
 const PORT = process.env.PORT || 5000;
