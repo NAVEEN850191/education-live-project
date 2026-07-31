@@ -1,22 +1,3 @@
-// Temporary Notes Data
-
-let notes = [
-  {
-    id: 1,
-    title: "Introduction to HTML",
-    subject: "Web Development",
-    uploadedBy: "Amit Kumar",
-    fileUrl: "html_notes.pdf"
-  },
-  {
-    id: 2,
-    title: "Normalization",
-    subject: "Database",
-    uploadedBy: "Sneha Roy",
-    fileUrl: "dbms_notes.pdf"
-  }
-];
-
 // Get all notes
 const getAllNotes = (req, res) => {
   res.status(200).json({

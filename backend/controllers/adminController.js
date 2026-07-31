@@ -1,12 +1,3 @@
-// Temporary Dashboard Data
-
-const dashboard = {
-  totalStudents: 120,
-  totalTeachers: 15,
-  totalCourses: 10,
-  totalAssignments: 45
-};
-
 // Dashboard
 const getDashboard = (req, res) => {
   res.status(200).json({

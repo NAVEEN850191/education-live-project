@@ -1,22 +1,3 @@
-// Temporary Attendance Data
-
-let attendance = [
-  {
-    id: 1,
-    studentName: "Rahul Sharma",
-    course: "Web Development",
-    date: "2026-08-01",
-    status: "Present"
-  },
-  {
-    id: 2,
-    studentName: "Priya Das",
-    course: "Database",
-    date: "2026-08-01",
-    status: "Absent"
-  }
-];
-
 // Get all attendance records
 const getAllAttendance = (req, res) => {
   res.status(200).json({

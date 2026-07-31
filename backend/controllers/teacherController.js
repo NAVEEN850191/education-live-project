@@ -1,20 +1,3 @@
-// Temporary data (will be replaced with MongoDB later)
-
-let teachers = [
-  {
-    id: 1,
-    name: "Amit Kumar",
-    email: "amit@gmail.com",
-    subject: "Java"
-  },
-  {
-    id: 2,
-    name: "Sneha Roy",
-    email: "sneha@gmail.com",
-    subject: "Database"
-  }
-];
-
 // Get all teachers
 const getAllTeachers = (req, res) => {
   res.status(200).json({

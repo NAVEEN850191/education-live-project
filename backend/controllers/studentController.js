@@ -1,19 +1,3 @@
-// Temporary Student Data
-let students = [
-    {
-        id: 1,
-        name: "Rahul Sharma",
-        email: "rahul@gmail.com",
-        course: "B.Tech CSE"
-    },
-    {
-        id: 2,
-        name: "Priya Das",
-        email: "priya@gmail.com",
-        course: "BCA"
-    }
-];
-
 // Get All Students
 const getAllStudents = (req, res) => {
     res.status(200).json({

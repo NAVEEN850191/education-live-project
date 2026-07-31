@@ -1,22 +1,3 @@
-// Temporary Assignment Data
-
-let assignments = [
-  {
-    id: 1,
-    title: "HTML Basics",
-    subject: "Web Development",
-    dueDate: "2026-08-10",
-    totalMarks: 20
-  },
-  {
-    id: 2,
-    title: "SQL Queries",
-    subject: "Database",
-    dueDate: "2026-08-15",
-    totalMarks: 30
-  }
-];
-
 // Get all assignments
 const getAllAssignments = (req, res) => {
   res.status(200).json({

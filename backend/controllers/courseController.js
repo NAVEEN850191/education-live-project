@@ -1,20 +1,3 @@
-// Temporary Course Data
-
-let courses = [
-  {
-    id: 1,
-    courseName: "Web Development",
-    courseCode: "WD101",
-    teacher: "Amit Kumar"
-  },
-  {
-    id: 2,
-    courseName: "Database Management System",
-    courseCode: "DBMS201",
-    teacher: "Sneha Roy"
-  }
-];
-
 // Get all courses
 const getAllCourses = (req, res) => {
   res.status(200).json({
