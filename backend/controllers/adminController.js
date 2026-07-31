@@ -1,74 +1,87 @@
+const User = require("../models/User");
+const Course = require("../models/Course");
+const Assignment = require("../models/Assignment");
+const Announcement = require("../models/Announcement");
+
 // Dashboard
-const getDashboard = (req, res) => {
-  res.status(200).json({
-    success: true,
-    data: dashboard
-  });
+const getDashboard = async (req, res) => {
+  try {
+    const totalStudents = await User.countDocuments({ role: "student" });
+    const totalTeachers = await User.countDocuments({ role: "teacher" });
+    const totalCourses = await Course.countDocuments();
+    const totalAssignments = await Assignment.countDocuments();
+    const totalAnnouncements = await Announcement.countDocuments();
+
+    res.status(200).json({
+      success: true,
+      data: {
+        totalStudents,
+        totalTeachers,
+        totalCourses,
+        totalAssignments,
+        totalAnnouncements
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Recent Activities
-const getRecentActivities = (req, res) => {
+const getRecentActivities = async (req, res) => {
+  try {
+    const recentAnnouncements = await Announcement.find()
+      .sort({ createdAt: -1 })
+      .limit(5);
 
-  const activities = [
-    {
-      id: 1,
-      activity: "New student registered"
-    },
-    {
-      id: 2,
-      activity: "Java assignment uploaded"
-    },
-    {
-      id: 3,
-      activity: "Attendance updated"
-    }
-  ];
-
-  res.status(200).json({
-    success: true,
-    data: activities
-  });
-
-};
-
-// Announcements
-let announcements = [
-  {
-    id: 1,
-    title: "Holiday Notice",
-    description: "College will remain closed on Monday."
+    res.status(200).json({
+      success: true,
+      data: recentAnnouncements
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
-];
-
-// Get announcements
-const getAnnouncements = (req, res) => {
-
-  res.status(200).json({
-    success: true,
-    data: announcements
-  });
-
 };
 
-// Add announcement
-const createAnnouncement = (req, res) => {
+// Get Announcements
+const getAnnouncements = async (req, res) => {
+  try {
+    const announcements = await Announcement.find().sort({ createdAt: -1 });
 
-  const { title, description } = req.body;
+    res.status(200).json({
+      success: true,
+      data: announcements
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
 
-  const newAnnouncement = {
-    id: announcements.length + 1,
-    title,
-    description
-  };
+// Create Announcement
+const createAnnouncement = async (req, res) => {
+  try {
+    const announcement = await Announcement.create(req.body);
 
-  announcements.push(newAnnouncement);
-
-  res.status(201).json({
-    success: true,
-    message: "Announcement added successfully",
-    data: newAnnouncement
-  });
-
+    res.status(201).json({
+      success: true,
+      message: "Announcement added successfully",
+      data: announcement
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 module.exports = {

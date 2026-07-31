@@ -1,110 +1,118 @@
+const Assignment = require("../models/Assignment");
+
 // Get all assignments
-const getAllAssignments = (req, res) => {
-  res.status(200).json({
-    success: true,
-    data: assignments
-  });
+const getAllAssignments = async (req, res) => {
+  try {
+    const assignments = await Assignment.find();
+
+    res.status(200).json({
+      success: true,
+      data: assignments
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Get assignment by ID
-const getAssignmentById = (req, res) => {
-  const id = Number(req.params.id);
+const getAssignmentById = async (req, res) => {
+  try {
+    const assignment = await Assignment.findById(req.params.id);
 
-  const assignment = assignments.find(
-    (assignment) => assignment.id === id
-  );
+    if (!assignment) {
+      return res.status(404).json({
+        success: false,
+        message: "Assignment not found"
+      });
+    }
 
-  if (!assignment) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      data: assignment
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Assignment not found"
+      message: error.message
     });
   }
-
-  res.status(200).json({
-    success: true,
-    data: assignment
-  });
 };
 
 // Create assignment
-const createAssignment = (req, res) => {
+const createAssignment = async (req, res) => {
+  try {
+    const assignment = await Assignment.create(req.body);
 
-  const { title, subject, dueDate, totalMarks } = req.body;
-
-  const newAssignment = {
-    id: assignments.length + 1,
-    title,
-    subject,
-    dueDate,
-    totalMarks
-  };
-
-  assignments.push(newAssignment);
-
-  res.status(201).json({
-    success: true,
-    message: "Assignment created successfully",
-    data: newAssignment
-  });
-
+    res.status(201).json({
+      success: true,
+      message: "Assignment created successfully",
+      data: assignment
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Update assignment
-const updateAssignment = (req, res) => {
+const updateAssignment = async (req, res) => {
+  try {
+    const assignment = await Assignment.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true
+      }
+    );
 
-  const id = Number(req.params.id);
+    if (!assignment) {
+      return res.status(404).json({
+        success: false,
+        message: "Assignment not found"
+      });
+    }
 
-  const assignment = assignments.find(
-    (assignment) => assignment.id === id
-  );
-
-  if (!assignment) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      message: "Assignment updated successfully",
+      data: assignment
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Assignment not found"
+      message: error.message
     });
   }
-
-  assignment.title = req.body.title || assignment.title;
-  assignment.subject = req.body.subject || assignment.subject;
-  assignment.dueDate = req.body.dueDate || assignment.dueDate;
-  assignment.totalMarks =
-    req.body.totalMarks || assignment.totalMarks;
-
-  res.status(200).json({
-    success: true,
-    message: "Assignment updated successfully",
-    data: assignment
-  });
-
 };
 
 // Delete assignment
-const deleteAssignment = (req, res) => {
+const deleteAssignment = async (req, res) => {
+  try {
+    const assignment = await Assignment.findByIdAndDelete(req.params.id);
 
-  const id = Number(req.params.id);
+    if (!assignment) {
+      return res.status(404).json({
+        success: false,
+        message: "Assignment not found"
+      });
+    }
 
-  const assignment = assignments.find(
-    (assignment) => assignment.id === id
-  );
-
-  if (!assignment) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      message: "Assignment deleted successfully"
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Assignment not found"
+      message: error.message
     });
   }
-
-  assignments = assignments.filter(
-    (assignment) => assignment.id !== id
-  );
-
-  res.status(200).json({
-    success: true,
-    message: "Assignment deleted successfully"
-  });
-
 };
 
 module.exports = {

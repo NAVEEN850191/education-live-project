@@ -1,87 +1,136 @@
+const User = require("../models/User");
+
 // Get All Students
-const getAllStudents = (req, res) => {
+const getAllStudents = async (req, res) => {
+  try {
+    const students = await User.find({ role: "student" }).select("-password");
+
     res.status(200).json({
-        success: true,
-        data: students
+      success: true,
+      data: students
     });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Get Student by ID
-const getStudentById = (req, res) => {
-    const id = Number(req.params.id);
-
-    const student = students.find(s => s.id === id);
+const getStudentById = async (req, res) => {
+  try {
+    const student = await User.findOne({
+      _id: req.params.id,
+      role: "student"
+    }).select("-password");
 
     if (!student) {
-        return res.status(404).json({
-            success: false,
-            message: "Student not found"
-        });
+      return res.status(404).json({
+        success: false,
+        message: "Student not found"
+      });
     }
 
     res.status(200).json({
-        success: true,
-        data: student
+      success: true,
+      data: student
     });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Create Student
-const createStudent = (req, res) => {
-    const { name, email, course } = req.body;
-
-    const newStudent = {
-        id: students.length + 1,
-        name,
-        email,
-        course
-    };
-
-    students.push(newStudent);
+const createStudent = async (req, res) => {
+  try {
+    const student = await User.create({
+      ...req.body,
+      role: "student"
+    });
 
     res.status(201).json({
-        success: true,
-        message: "Student Created Successfully",
-        data: newStudent
+      success: true,
+      message: "Student Created Successfully",
+      data: student
     });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Update Student
-const updateStudent = (req, res) => {
-
-    const id = Number(req.params.id);
-
-    const student = students.find(s => s.id === id);
+const updateStudent = async (req, res) => {
+  try {
+    const student = await User.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        role: "student"
+      },
+      req.body,
+      {
+        new: true,
+        runValidators: true
+      }
+    ).select("-password");
 
     if (!student) {
-        return res.status(404).json({
-            success: false,
-            message: "Student not found"
-        });
+      return res.status(404).json({
+        success: false,
+        message: "Student not found"
+      });
     }
 
-    student.name = req.body.name || student.name;
-    student.email = req.body.email || student.email;
-    student.course = req.body.course || student.course;
-
     res.status(200).json({
-        success: true,
-        message: "Student Updated Successfully",
-        data: student
+      success: true,
+      message: "Student Updated Successfully",
+      data: student
     });
-
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Delete Student
-const deleteStudent = (req, res) => {
+const deleteStudent = async (req, res) => {
+  try {
+    const student = await User.findOneAndDelete({
+      _id: req.params.id,
+      role: "student"
+    });
 
-    const id = Number(req.params.id);
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found"
+      });
+    }
 
-    students = students.filter(s => s.id !== id);
-
-    res.status(200).json({ success: true,
-        message: "Student Deleted Successfully" });
-
+    res.status(200).json({
+      success: true,
+      message: "Student Deleted Successfully"
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 module.exports = {
-    getAllStudents, getStudentById,createStudent,  updateStudent, deleteStudent};
+  getAllStudents,
+  getStudentById,
+  createStudent,
+  updateStudent,
+  deleteStudent
+};

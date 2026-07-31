@@ -1,95 +1,115 @@
+const Attendance = require("../models/Attendance");
+
 // Get all attendance records
-const getAllAttendance = (req, res) => {
-  res.status(200).json({
-    success: true,
-    data: attendance
-  });
+const getAllAttendance = async (req, res) => {
+  try {
+    const attendance = await Attendance.find();
+
+    res.status(200).json({
+      success: true,
+      data: attendance
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Get attendance by ID
-const getAttendanceById = (req, res) => {
-  const id = Number(req.params.id);
+const getAttendanceById = async (req, res) => {
+  try {
+    const record = await Attendance.findById(req.params.id);
 
-  const record = attendance.find((item) => item.id === id);
+    if (!record) {
+      return res.status(404).json({
+        success: false,
+        message: "Attendance record not found"
+      });
+    }
 
-  if (!record) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      data: record
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Attendance record not found"
+      message: error.message
     });
   }
-
-  res.status(200).json({
-    success: true,
-    data: record
-  });
 };
 
 // Mark attendance
-const createAttendance = (req, res) => {
-  const { studentName, course, date, status } = req.body;
+const createAttendance = async (req, res) => {
+  try {
+    const record = await Attendance.create(req.body);
 
-  const newRecord = {
-    id: attendance.length + 1,
-    studentName,
-    course,
-    date,
-    status
-  };
-
-  attendance.push(newRecord);
-
-  res.status(201).json({
-    success: true,
-    message: "Attendance marked successfully",
-    data: newRecord
-  });
+    res.status(201).json({
+      success: true,
+      message: "Attendance marked successfully",
+      data: record
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Update attendance
-const updateAttendance = (req, res) => {
-  const id = Number(req.params.id);
+const updateAttendance = async (req, res) => {
+  try {
+    const record = await Attendance.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
 
-  const record = attendance.find((item) => item.id === id);
+    if (!record) {
+      return res.status(404).json({
+        success: false,
+        message: "Attendance record not found"
+      });
+    }
 
-  if (!record) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      message: "Attendance updated successfully",
+      data: record
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Attendance record not found"
+      message: error.message
     });
   }
-
-  record.studentName = req.body.studentName || record.studentName;
-  record.course = req.body.course || record.course;
-  record.date = req.body.date || record.date;
-  record.status = req.body.status || record.status;
-
-  res.status(200).json({
-    success: true,
-    message: "Attendance updated successfully",
-    data: record
-  });
 };
 
 // Delete attendance
-const deleteAttendance = (req, res) => {
-  const id = Number(req.params.id);
+const deleteAttendance = async (req, res) => {
+  try {
+    const record = await Attendance.findByIdAndDelete(req.params.id);
 
-  const record = attendance.find((item) => item.id === id);
+    if (!record) {
+      return res.status(404).json({
+        success: false,
+        message: "Attendance record not found"
+      });
+    }
 
-  if (!record) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      message: "Attendance deleted successfully"
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Attendance record not found"
+      message: error.message
     });
   }
-
-  attendance = attendance.filter((item) => item.id !== id);
-
-  res.status(200).json({
-    success: true,
-    message: "Attendance deleted successfully"
-  });
 };
 
 module.exports = {

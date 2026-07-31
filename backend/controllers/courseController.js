@@ -1,93 +1,118 @@
+const Course = require("../models/Course");
+
 // Get all courses
-const getAllCourses = (req, res) => {
-  res.status(200).json({
-    success: true,
-    data: courses
-  });
+const getAllCourses = async (req, res) => {
+  try {
+    const courses = await Course.find();
+
+    res.status(200).json({
+      success: true,
+      data: courses
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Get course by ID
-const getCourseById = (req, res) => {
-  const id = Number(req.params.id);
+const getCourseById = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
 
-  const course = courses.find((course) => course.id === id);
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: "Course not found"
+      });
+    }
 
-  if (!course) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      data: course
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Course not found"
+      message: error.message
     });
   }
-
-  res.status(200).json({
-    success: true,
-    data: course
-  });
 };
 
 // Create course
-const createCourse = (req, res) => {
-  const { courseName, courseCode, teacher } = req.body;
+const createCourse = async (req, res) => {
+  try {
+    const course = await Course.create(req.body);
 
-  const newCourse = {
-    id: courses.length + 1,
-    courseName,
-    courseCode,
-    teacher
-  };
-
-  courses.push(newCourse);
-
-  res.status(201).json({
-    success: true,
-    message: "Course created successfully",
-    data: newCourse
-  });
+    res.status(201).json({
+      success: true,
+      message: "Course created successfully",
+      data: course
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Update course
-const updateCourse = (req, res) => {
-  const id = Number(req.params.id);
+const updateCourse = async (req, res) => {
+  try {
+    const course = await Course.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true
+      }
+    );
 
-  const course = courses.find((course) => course.id === id);
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: "Course not found"
+      });
+    }
 
-  if (!course) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      message: "Course updated successfully",
+      data: course
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Course not found"
+      message: error.message
     });
   }
-
-  course.courseName = req.body.courseName || course.courseName;
-  course.courseCode = req.body.courseCode || course.courseCode;
-  course.teacher = req.body.teacher || course.teacher;
-
-  res.status(200).json({
-    success: true,
-    message: "Course updated successfully",
-    data: course
-  });
 };
 
 // Delete course
-let deleteCourse = (req, res) => {
-  const id = Number(req.params.id);
+const deleteCourse = async (req, res) => {
+  try {
+    const course = await Course.findByIdAndDelete(req.params.id);
 
-  const course = courses.find((course) => course.id === id);
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: "Course not found"
+      });
+    }
 
-  if (!course) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      message: "Course deleted successfully"
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Course not found"
+      message: error.message
     });
   }
-
-  courses = courses.filter((course) => course.id !== id);
-
-  res.status(200).json({
-    success: true,
-    message: "Course deleted successfully"
-  });
 };
 
 module.exports = {

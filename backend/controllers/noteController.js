@@ -1,95 +1,118 @@
+const Note = require("../models/Note");
+
 // Get all notes
-const getAllNotes = (req, res) => {
-  res.status(200).json({
-    success: true,
-    data: notes
-  });
+const getAllNotes = async (req, res) => {
+  try {
+    const notes = await Note.find();
+
+    res.status(200).json({
+      success: true,
+      data: notes
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Get note by ID
-const getNoteById = (req, res) => {
-  const id = Number(req.params.id);
+const getNoteById = async (req, res) => {
+  try {
+    const note = await Note.findById(req.params.id);
 
-  const note = notes.find((note) => note.id === id);
+    if (!note) {
+      return res.status(404).json({
+        success: false,
+        message: "Note not found"
+      });
+    }
 
-  if (!note) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      data: note
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Note not found"
+      message: error.message
     });
   }
-
-  res.status(200).json({
-    success: true,
-    data: note
-  });
 };
 
-// Add new note
-const createNote = (req, res) => {
-  const { title, subject, uploadedBy, fileUrl } = req.body;
+// Create note
+const createNote = async (req, res) => {
+  try {
+    const note = await Note.create(req.body);
 
-  const newNote = {
-    id: notes.length + 1,
-    title,
-    subject,
-    uploadedBy,
-    fileUrl
-  };
-
-  notes.push(newNote);
-
-  res.status(201).json({
-    success: true,
-    message: "Note added successfully",
-    data: newNote
-  });
+    res.status(201).json({
+      success: true,
+      message: "Note added successfully",
+      data: note
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Update note
-const updateNote = (req, res) => {
-  const id = Number(req.params.id);
+const updateNote = async (req, res) => {
+  try {
+    const note = await Note.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true
+      }
+    );
 
-  const note = notes.find((note) => note.id === id);
+    if (!note) {
+      return res.status(404).json({
+        success: false,
+        message: "Note not found"
+      });
+    }
 
-  if (!note) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      message: "Note updated successfully",
+      data: note
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Note not found"
+      message: error.message
     });
   }
-
-  note.title = req.body.title || note.title;
-  note.subject = req.body.subject || note.subject;
-  note.uploadedBy = req.body.uploadedBy || note.uploadedBy;
-  note.fileUrl = req.body.fileUrl || note.fileUrl;
-
-  res.status(200).json({
-    success: true,
-    message: "Note updated successfully",
-    data: note
-  });
 };
 
 // Delete note
-const deleteNote = (req, res) => {
-  const id = Number(req.params.id);
+const deleteNote = async (req, res) => {
+  try {
+    const note = await Note.findByIdAndDelete(req.params.id);
 
-  const note = notes.find((note) => note.id === id);
+    if (!note) {
+      return res.status(404).json({
+        success: false,
+        message: "Note not found"
+      });
+    }
 
-  if (!note) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      message: "Note deleted successfully"
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Note not found"
+      message: error.message
     });
   }
-
-  notes = notes.filter((note) => note.id !== id);
-
-  res.status(200).json({
-    success: true,
-    message: "Note deleted successfully"
-  });
 };
 
 module.exports = {

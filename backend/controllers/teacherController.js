@@ -1,93 +1,130 @@
+const User = require("../models/User");
+
 // Get all teachers
-const getAllTeachers = (req, res) => {
-  res.status(200).json({
-    success: true,
-    data: teachers
-  });
+const getAllTeachers = async (req, res) => {
+  try {
+    const teachers = await User.find({ role: "teacher" }).select("-password");
+
+    res.status(200).json({
+      success: true,
+      data: teachers
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Get teacher by ID
-const getTeacherById = (req, res) => {
-  const id = Number(req.params.id);
+const getTeacherById = async (req, res) => {
+  try {
+    const teacher = await User.findOne({
+      _id: req.params.id,
+      role: "teacher"
+    }).select("-password");
 
-  const teacher = teachers.find((teacher) => teacher.id === id);
+    if (!teacher) {
+      return res.status(404).json({
+        success: false,
+        message: "Teacher not found"
+      });
+    }
 
-  if (!teacher) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      data: teacher
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Teacher not found"
+      message: error.message
     });
   }
-
-  res.status(200).json({
-    success: true,
-    data: teacher
-  });
 };
 
 // Add teacher
-const createTeacher = (req, res) => {
-  const { name, email, subject } = req.body;
+const createTeacher = async (req, res) => {
+  try {
+    const teacher = await User.create({
+      ...req.body,
+      role: "teacher"
+    });
 
-  const newTeacher = {
-    id: teachers.length + 1,
-    name,
-    email,
-    subject
-  };
-
-  teachers.push(newTeacher);
-
-  res.status(201).json({
-    success: true,
-    message: "Teacher added successfully",
-    data: newTeacher
-  });
+    res.status(201).json({
+      success: true,
+      message: "Teacher added successfully",
+      data: teacher
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
 
 // Update teacher
-const updateTeacher = (req, res) => {
-  const id = Number(req.params.id);
+const updateTeacher = async (req, res) => {
+  try {
+    const teacher = await User.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        role: "teacher"
+      },
+      req.body,
+      {
+        new: true,
+        runValidators: true
+      }
+    ).select("-password");
 
-  const teacher = teachers.find((teacher) => teacher.id === id);
+    if (!teacher) {
+      return res.status(404).json({
+        success: false,
+        message: "Teacher not found"
+      });
+    }
 
-  if (!teacher) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      message: "Teacher updated successfully",
+      data: teacher
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Teacher not found"
+      message: error.message
     });
   }
-
-  teacher.name = req.body.name || teacher.name;
-  teacher.email = req.body.email || teacher.email;
-  teacher.subject = req.body.subject || teacher.subject;
-
-  res.status(200).json({
-    success: true,
-    message: "Teacher updated successfully",
-    data: teacher
-  });
 };
 
 // Delete teacher
-const deleteTeacher = (req, res) => {
-  const id = Number(req.params.id);
+const deleteTeacher = async (req, res) => {
+  try {
+    const teacher = await User.findOneAndDelete({
+      _id: req.params.id,
+      role: "teacher"
+    });
 
-  const teacher = teachers.find((teacher) => teacher.id === id);
+    if (!teacher) {
+      return res.status(404).json({
+        success: false,
+        message: "Teacher not found"
+      });
+    }
 
-  if (!teacher) {
-    return res.status(404).json({
+    res.status(200).json({
+      success: true,
+      message: "Teacher deleted successfully"
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
-      message: "Teacher not found"
+      message: error.message
     });
   }
-
-  teachers = teachers.filter((teacher) => teacher.id !== id);
-
-  res.status(200).json({
-    success: true,
-    message: "Teacher deleted successfully"
-  });
 };
 
 module.exports = {
