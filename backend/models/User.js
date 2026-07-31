@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs"); // agar install nahi hai to: npm install bcryptjs
+const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema(
   {
@@ -11,11 +11,16 @@ const userSchema = new mongoose.Schema(
       enum: ["student", "teacher", "admin"],
       default: "student",
     },
+    // Student-specific fields
+    phone: { type: String },
+    usn: { type: String, unique: true, sparse: true }, // sparse = only students need this
+    department: { type: String },
+    year: { type: String },
+    photo: { type: String }, // image URL/path store here
   },
   { timestamps: true }
 );
 
-// Save hone se pehle password hash karo
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   const salt = await bcrypt.genSalt(10);
@@ -23,7 +28,6 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// Login ke time password compare karne ke liye
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
