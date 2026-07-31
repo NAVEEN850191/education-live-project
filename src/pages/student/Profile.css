@@ -1,0 +1,199 @@
+.page-title {
+
+  color: rgb(109, 40, 217);
+
+  margin-bottom: 30px;
+
+  font-size: 36px;
+
+  font-weight: 700;
+
+}
+
+/* Main Card */
+
+.profile-card {
+
+  display: flex;
+
+  gap: 40px;
+
+  align-items: flex-start;
+
+  background-color: rgb(255, 255, 255);
+
+  padding: 35px;
+
+  border-radius: 18px;
+
+  border: 1px solid rgb(233, 213, 255);
+
+  box-shadow:
+    0 10px 25px rgba(109, 40, 217, 0.12);
+
+}
+
+/* Left Section */
+
+.profile-image-section {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+}
+
+.profile-image {
+
+  width: 160px;
+
+  height: 160px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  border: 5px solid rgb(196, 181, 253);
+
+  box-shadow:
+    0 8px 20px rgba(109, 40, 217, 0.2);
+
+}
+
+.upload-btn {
+
+  margin-top: 15px;
+
+  padding: 10px 18px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  color: white;
+
+  font-weight: 600;
+
+  background: linear-gradient(
+    135deg,
+    rgb(109, 40, 217),
+    rgb(147, 51, 234)
+  );
+
+  transition: 0.3s ease;
+
+}
+
+.upload-btn:hover {
+
+  transform: translateY(-2px);
+
+}
+
+/* Right Section */
+
+.profile-form {
+
+  flex: 1;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 18px;
+
+}
+
+.profile-form input {
+
+  padding: 14px;
+
+  border: 1px solid rgb(221, 221, 221);
+
+  border-radius: 10px;
+
+  font-size: 15px;
+
+  transition: all 0.3s ease;
+
+}
+
+.profile-form input:focus {
+
+  outline: none;
+
+  border-color: rgb(147, 51, 234);
+
+  box-shadow:
+    0 0 12px rgba(147, 51, 234, 0.2);
+
+}
+
+.save-btn {
+
+  grid-column: span 2;
+
+  padding: 15px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  background: linear-gradient(
+    135deg,
+    rgb(109, 40, 217),
+    rgb(147, 51, 234)
+  );
+
+  transition: all 0.3s ease;
+
+}
+
+.save-btn:hover {
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 10px 20px rgba(109, 40, 217, 0.25);
+
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+  .profile-card {
+
+    flex-direction: column;
+
+    align-items: center;
+
+  }
+
+  .profile-form {
+
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .save-btn {
+
+    grid-column: span 1;
+
+  }
+
+}

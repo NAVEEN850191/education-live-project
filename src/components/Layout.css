@@ -1,0 +1,17 @@
+.layout-container {
+    display:flex;
+    min-height:100vh;
+    background-color:
+    rgb(248,250,252);
+    padding-top:70px;
+}
+
+
+
+.content {
+    flex:1;
+    margin-top:20px;
+    padding:30px;
+    animation:fadeIn .6s ease;
+
+}

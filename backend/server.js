@@ -46,7 +46,6 @@ app.get("/", (req, res) => {
 });
 
 // Database Connection
-const connectDB = require("./config/db");
 connectDB();
 
 // Server

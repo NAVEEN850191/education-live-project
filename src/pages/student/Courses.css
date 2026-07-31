@@ -1,0 +1,41 @@
+.page-title {
+
+  color: rgb(109, 40, 217);
+
+  font-size: 28px;
+
+  font-weight: 600;
+
+  margin-bottom: 20px;
+
+}
+
+.course-card h3 {
+
+  font-size: 18px;
+
+  font-weight: 600;
+
+  color: rgb(109, 40, 217);
+
+  margin-bottom: 10px;
+
+}
+
+.course-card p {
+
+  font-size: 14px;
+
+  color: rgb(107, 114, 128);
+
+}
+
+.cards {
+
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+  gap: 20px;
+
+}

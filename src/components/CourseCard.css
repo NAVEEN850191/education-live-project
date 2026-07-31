@@ -1,0 +1,43 @@
+.course-card {
+
+  background-color: rgb(255,255,255);
+
+  padding: 25px;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 8px 20px rgba(109,40,217,0.12);
+
+  border: 1px solid rgb(233,213,255);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+}
+
+.course-card:hover {
+
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 12px 25px rgba(109,40,217,0.18);
+
+}
+
+.course-card h3 {
+
+  color: rgb(109,40,217);
+
+  margin-bottom: 15px;
+
+}
+
+.course-card p {
+
+  color: rgb(75,85,99);
+
+  margin-bottom: 8px;
+
+}
