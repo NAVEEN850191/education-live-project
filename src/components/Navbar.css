@@ -2,6 +2,10 @@
   height: 70px;
   width: 100%;
 
+  position: fixed;
+  top: 0;
+  left: 0;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,45 +19,31 @@
     rgb(192, 132, 252)
   );
 
-  color: rgb(255, 255, 255);
+  color: white;
 
   box-shadow: 0 4px 15px rgba(109, 40, 217, 0.3);
-
-  position: fixed;
-  top: 0;
-  left: 0;
 
   z-index: 1000;
 }
 
-
 .navbar h1 {
+  margin: 0;
+
   font-size: 24px;
   font-weight: 700;
-  letter-spacing: 0.5px;
-  margin: 0;
-  background: linear-gradient(
-    90deg,
-    rgb(255, 255, 255),
-    rgb(233, 213, 255)
-  );
 
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.5px;
 }
 
-
-/* Logout Button */
-
 .logout-btn {
-  padding: 10px 24px;
+  padding: 10px 22px;
 
   border: none;
   border-radius: 25px;
 
   background: rgba(255, 255, 255, 0.15);
 
-  color: rgb(255, 255, 255);
+  color: white;
 
   font-size: 15px;
   font-weight: 600;
@@ -63,14 +53,10 @@
   backdrop-filter: blur(10px);
 
   transition: all 0.3s ease;
-
-  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-
 .logout-btn:hover {
-
-  background: rgb(255, 255, 255);
+  background: white;
 
   color: rgb(124, 58, 237);
 
@@ -79,15 +65,11 @@
   box-shadow: 0 8px 20px rgba(255, 255, 255, 0.25);
 }
 
-
 .logout-btn:active {
   transform: scale(0.95);
 }
 
-
-/* Responsive */
-
-@media(max-width:768px){
+@media (max-width: 768px) {
 
   .navbar {
     padding: 0 15px;
@@ -97,9 +79,9 @@
     font-size: 18px;
   }
 
-
   .logout-btn {
-    padding: 8px 15px;
+    padding: 8px 14px;
     font-size: 13px;
   }
+
 }

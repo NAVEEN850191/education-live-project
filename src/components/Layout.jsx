@@ -4,16 +4,22 @@ import "./Layout.css";
 
 function Layout({ children }) {
   return (
-    <>
+    <div>
+
       <Navbar />
+
       <div className="layout-container">
+
         <Sidebar />
-        <div className="content">
-            {children}
-        </div>
+
+        <main className="main-content">
+          {children}
+        </main>
+
       </div>
-    </>
-  )
+
+    </div>
+  );
 }
 
 export default Layout;

@@ -12,19 +12,26 @@ function NoteCard({
       <h3>{title}</h3>
 
       <p>
-        Subject: {subject}
+        <strong>Subject:</strong> {subject}
       </p>
 
       <p>
-        Uploaded By: {uploadedBy}
+        <strong>Uploaded By:</strong> {uploadedBy}
       </p>
 
-      <button>
-        Download Notes
+      <p className="file-url">
+        <strong>File:</strong> {fileUrl}
+      </p>
+
+      <button
+        className="download-btn"
+        onClick={() => alert(`Opening ${fileUrl}`)}
+      >
+        View Notes
       </button>
 
     </div>
-  )
+  );
 }
 
 export default NoteCard;
